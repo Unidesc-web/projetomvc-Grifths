@@ -1,14 +1,242 @@
+<style>
+    :root {
+        --cor-primaria: #ff8c00;
+        --cor-primaria-escura: #e67e00;
+        --cor-texto: #212529;
+        --raio-borda: 16px;
+        --sombra-media: 0 12px 28px rgba(0,0,0,0.12);
+        --transicao-suave: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
 
-@{
-    ViewData["Title"] = "Página Inicial";
-}
+    .hero-section-v2 {
+        position: relative;
+        height: 90vh;
+        min-height: 600px;
+        color: white;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        overflow: hidden;
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    }
+    
+    .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=2121&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        animation: kenburns 20s ease-out infinite;
+    }
 
-<div class="text-center">
-    <h1 class="display-4">Bem-vindo à nossa Lanchonete!</h1>
-    <p class="lead">O melhor sabor da cidade, agora online.</p>
-    <hr />
-    <img src="https://placehold.co/800x400/EFEFEF/AAAAAA?text=O+Melhor+Lanche+da+Cidade" alt="Lanche de boas-vindas" class="img-fluid rounded shadow" />
-    <div class="mt-4">
-        <a class="btn btn-primary btn-lg" asp-controller="Lanche" asp-action="List">Ver Cardápio</a>
+    .hero-overlay-v2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4));
+    }
+
+    .hero-content-v2 {
+        position: relative;
+        z-index: 2;
+        padding: 0 1rem;
+    }
+
+    .hero-content-v2 h1 {
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        font-weight: 800;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        animation: slideInUp 1s ease-out forwards;
+    }
+
+    .hero-content-v2 .lead {
+        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+        font-weight: 300;
+        max-width: 600px;
+        margin: 1.5rem auto 2.5rem;
+        animation: slideInUp 1s ease-out 0.2s forwards;
+        opacity: 0;
+    }
+
+    .btn-hero {
+        padding: 0.9rem 2.5rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        border-radius: 50px;
+        background: var(--cor-primaria);
+        border: 2px solid var(--cor-primaria);
+        color: white;
+        transition: var(--transicao-suave);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        animation: slideInUp 1s ease-out 0.4s forwards;
+        opacity: 0;
+    }
+
+    .btn-hero:hover {
+        background: transparent;
+        border-color: white;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .featured-section {
+        background-color: #f8f9fa;
+    }
+
+    .section-title-v2 {
+        font-weight: 800;
+        position: relative;
+        padding-bottom: 1rem;
+    }
+
+    .section-title-v2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background-color: var(--cor-primaria);
+        border-radius: 2px;
+    }
+
+    .lanche-card-v2 {
+        background-color: #fff;
+        border-radius: var(--raio-borda);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        transition: var(--transicao-suave);
+        overflow: hidden;
+    }
+
+    .lanche-card-v2:hover {
+        transform: translateY(-12px);
+        box-shadow: var(--sombra-media);
+    }
+    
+    .lanche-card-v2 .img-wrapper {
+        overflow: hidden;
+        height: 240px;
+    }
+    
+    .lanche-card-v2 img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transicao-suave);
+    }
+
+    .lanche-card-v2:hover img {
+        transform: scale(1.1);
+    }
+    
+    .lanche-card-v2 .card-body {
+        padding: 1.5rem;
+    }
+    
+    .lanche-card-v2 .card-title {
+        font-weight: 700;
+    }
+    
+    .lanche-card-v2 .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1.5rem 1.5rem;
+        background-color: #fff;
+    }
+
+    .lanche-card-v2 .price {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--cor-primaria-escura);
+    }
+
+    @keyframes kenburns {
+        0% { transform: scale(1) translate(0, 0); }
+        50% { transform: scale(1.1) translate(-2%, 2%); }
+        100% { transform: scale(1) translate(0, 0); }
+    }
+    
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<section class="hero-section-v2">
+    <div class="hero-background"></div>
+    <div class="hero-overlay-v2"></div>
+    <div class="container">
+        <div class="hero-content-v2">
+            <h1>O Sabor que te Move</h1>
+            <p class="lead">Hambúrgueres artesanais, ingredientes frescos e uma explosão de sabor em cada mordida. Peça agora e descubra.</p>
+            <a class="btn btn-hero" asp-controller="Lanche" asp-action="List">Ver Cardápio</a>
+        </div>
     </div>
-</div>
+</section>
+
+<section class="featured-section py-5">
+    <div class="container">
+        <h2 class="text-center section-title-v2 mb-5">Nossos Campeões de Venda</h2>
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card lanche-card-v2">
+                    <div class="img-wrapper">
+                        <img src="https://placehold.co/600x400/FFA500/FFFFFF?text=X-Bacon+Supremo" alt="X-Bacon">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">X-Bacon Supremo</h5>
+                        <p class="card-text text-muted">A combinação perfeita de carne suculenta, queijo derretido e bacon crocante.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="price">R$ 28,50</span>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Pedir</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card lanche-card-v2">
+                     <div class="img-wrapper">
+                        <img src="https://placehold.co/600x400/FF4500/FFFFFF?text=Frango+Catupiry" alt="Frango Catupiry">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Frango Catupiry</h5>
+                        <p class="card-text text-muted">Frango desfiado cremoso com o autêntico requeijão Catupiry®.</p>
+                    </div>
+                     <div class="card-footer">
+                        <span class="price">R$ 26,00</span>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Pedir</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                 <div class="card lanche-card-v2">
+                     <div class="img-wrapper">
+                        <img src="https://placehold.co/600x400/8B4513/FFFFFF?text=Vegetariano" alt="Vegetariano">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Vegetariano Especial</h5>
+                        <p class="card-text text-muted">Hambúrguer de grão de bico, queijo branco e uma salada fresca da casa.</p>
+                    </div>
+                     <div class="card-footer">
+                        <span class="price">R$ 24,50</span>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Pedir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
