@@ -1,4 +1,4 @@
-
+using LanchoneteMVC.Models; 
 using LanchoneteMVC.Repositories.Interfaces;
 using LanchoneteMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +15,9 @@ public class LancheController : Controller
     {
         var lancheListViewModel = new LancheListViewModel
         {
-            Lanches = _lancheRepository.Lanches,
+            
+            Lanches = new List<Lanche>(), 
+
             CategoriaAtual = "Nosso Cardápio"
         };
         return View(lancheListViewModel);
