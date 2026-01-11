@@ -1,0 +1,501 @@
+Com certeza. Combinando tudo o que conversamos, aqui está um prompt único, completo e seguro.
+
+Ele instrui a IA do Replit a construir todo o projeto da lanchonete, passo a passo, sem incluir nenhuma informação sensível ou comandos de git.
+
+Como Usar
+No site do Replit, crie um novo projeto ("+ Create Repl") usando o template "C# (.NET)".
+Com o projeto aberto, abra a janela de chat da IA do Replit (geralmente no canto inferior direito).
+Copie todo o bloco de texto abaixo e cole de uma só vez no chat da IA.
+Aperte Enter e aguarde. A IA começará a criar as pastas e arquivos. Você verá eles aparecendo na barra lateral esquerda.
+Prompt Completo para a IA do Replit (Copie tudo abaixo)
+Olá! Quero que você atue como um desenvolvedor .NET sênior e crie para mim um projeto web completo.
+
+Objetivo: Criar uma aplicação web para uma lanchonete usando ASP.NET Core MVC.
+Tecnologias: .NET 8, Entity Framework Core e SQLite.
+Padrões de Projeto: A estrutura deve seguir rigorosamente os padrões Repository e ViewModel.
+
+Por favor, siga os passos abaixo em ordem e com atenção aos detalhes, criando cada pasta e arquivo exatamente como especificado.
+
+Passo 1: Configurar o Arquivo de Projeto
+
+Primeiro, garanta que o arquivo .csproj do projeto tenha o seguinte conteúdo para incluir as dependências necessárias.
+
+XML
+
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>LanchoneteMVC</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
+  </ItemGroup>
+</Project>
+Passo 2: Criar a Estrutura de Pastas
+
+Agora, crie a seguinte estrutura de pastas vazias na raiz do projeto:
+
+Data
+Models
+Repositories
+Interfaces
+ViewModels
+Controllers
+Views
+Home
+Lanche
+Shared
+wwwroot
+css
+Passo 3: Criar e Preencher os Arquivos
+
+Crie cada um dos seguintes arquivos no local correto e com o conteúdo exato fornecido.
+
+Arquivo: appsettings.json
+
+JSON
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=lanchonete.db"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+Arquivo: Models/Categoria.cs
+
+C#
+
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LanchoneteMVC.Models;
+
+[Table("Categorias")]
+public class Categoria
+{
+    public int CategoriaId { get; set; }
+    [Required(ErrorMessage = "O nome da categoria é obrigatório")]
+    [StringLength(100, ErrorMessage = "O nome da categoria deve ter no máximo 100 caracteres")]
+    public string CategoriaNome { get; set; }
+    [Required(ErrorMessage = "A descrição é obrigatória")]
+    [StringLength(200, ErrorMessage = "A descrição deve ter no máximo 200 caracteres")]
+    public string Descricao { get; set; }
+    public List<Lanche> Lanches { get; set; }
+}
+Arquivo: Models/Lanche.cs
+
+C#
+
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LanchoneteMVC.Models;
+
+[Table("Lanches")]
+public class Lanche
+{
+    public int LancheId { get; set; }
+    [Required]
+    [StringLength(80)]
+    public string Nome { get; set; }
+    [Required]
+    [StringLength(200)]
+    public string DescricaoCurta { get; set; }
+    [Required]
+    [StringLength(500)]
+    public string DescricaoDetalhada { get; set; }
+    [Required]
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal Preco { get; set; }
+    [StringLength(200)]
+    public string ImagemUrl { get; set; }
+    [StringLength(200)]
+    public string ImagemThumbnailUrl { get; set; }
+    public bool IsLanchePreferido { get; set; }
+    public bool EmEstoque { get; set; }
+    public int CategoriaId { get; set; }
+    public virtual Categoria Categoria { get; set; }
+}
+Arquivo: Models/ErrorViewModel.cs
+
+C#
+
+namespace LanchoneteMVC.Models;
+
+public class ErrorViewModel
+{
+    public string? RequestId { get; set; }
+    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+}
+Arquivo: Data/AppDbContext.cs
+
+C#
+
+using LanchoneteMVC.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace LanchoneteMVC.Data;
+
+public class AppDbContext : DbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public DbSet<Categoria> Categorias { get; set; }
+    public DbSet<Lanche> Lanches { get; set; }
+}
+Arquivo: Repositories/Interfaces/ICategoriaRepository.cs
+
+C#
+
+using LanchoneteMVC.Models;
+namespace LanchoneteMVC.Repositories.Interfaces;
+public interface ICategoriaRepository
+{
+    IEnumerable<Categoria> Categorias { get; }
+}
+Arquivo: Repositories/Interfaces/ILancheRepository.cs
+
+C#
+
+using LanchoneteMVC.Models;
+namespace LanchoneteMVC.Repositories.Interfaces;
+public interface ILancheRepository
+{
+    IEnumerable<Lanche> Lanches { get; }
+    IEnumerable<Lanche> LanchesPreferidos { get; }
+    Lanche GetLancheById(int lancheId);
+}
+Arquivo: Repositories/CategoriaRepository.cs
+
+C#
+
+using LanchoneteMVC.Data;
+using LanchoneteMVC.Models;
+using LanchoneteMVC.Repositories.Interfaces;
+
+namespace LanchoneteMVC.Repositories;
+public class CategoriaRepository : ICategoriaRepository
+{
+    private readonly AppDbContext _context;
+    public CategoriaRepository(AppDbContext context)
+    {
+        _context = context;
+    }
+    public IEnumerable<Categoria> Categorias => _context.Categorias.OrderBy(c => c.CategoriaNome).ToList();
+}
+Arquivo: Repositories/LancheRepository.cs
+
+C#
+
+using LanchoneteMVC.Data;
+using LanchoneteMVC.Models;
+using LanchoneteMVC.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
+namespace LanchoneteMVC.Repositories;
+public class LancheRepository : ILancheRepository
+{
+    private readonly AppDbContext _context;
+    public LancheRepository(AppDbContext context)
+    {
+        _context = context;
+    }
+    public IEnumerable<Lanche> Lanches => _context.Lanches.Include(c => c.Categoria).ToList();
+    public IEnumerable<Lanche> LanchesPreferidos => _context.Lanches.Where(l => l.IsLanchePreferido).Include(c => c.Categoria).ToList();
+    public Lanche GetLancheById(int lancheId) => _context.Lanches.FirstOrDefault(l => l.LancheId == lancheId);
+}
+Arquivo: ViewModels/LancheListViewModel.cs
+
+C#
+
+using LanchoneteMVC.Models;
+namespace LanchoneteMVC.ViewModels;
+public class LancheListViewModel
+{
+    public IEnumerable<Lanche> Lanches { get; set; }
+    public string CategoriaAtual { get; set; }
+}
+Arquivo: Controllers/HomeController.cs
+
+C#
+
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using LanchoneteMVC.Models;
+
+namespace LanchoneteMVC.Controllers;
+
+public class HomeController : Controller
+{
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+}
+Arquivo: Controllers/LancheController.cs
+
+C#
+
+using LanchoneteMVC.Repositories.Interfaces;
+using LanchoneteMVC.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LanchoneteMVC.Controllers;
+public class LancheController : Controller
+{
+    private readonly ILancheRepository _lancheRepository;
+    public LancheController(ILancheRepository lancheRepository)
+    {
+        _lancheRepository = lancheRepository;
+    }
+    public IActionResult List()
+    {
+        var lancheListViewModel = new LancheListViewModel
+        {
+            Lanches = _lancheRepository.Lanches,
+            CategoriaAtual = "Nosso Cardápio"
+        };
+        return View(lancheListViewModel);
+    }
+}
+Arquivo: Views/_ViewImports.cshtml
+
+HTML
+
+@using LanchoneteMVC
+@using LanchoneteMVC.Models
+@using LanchoneteMVC.ViewModels
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+Arquivo: Views/_ViewStart.cshtml
+
+HTML
+
+@{
+    Layout = "_Layout";
+}
+Arquivo: Views/Shared/_Layout.cshtml
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>@ViewData["Title"] - Lanchonete</title>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+<header>
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+<div class="container">
+<a class="navbar-brand" asp-controller="Home" asp-action="Index">Lanchonete</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+ <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+<ul class="navbar-nav flex-grow-1">
+<li class="nav-item">
+<a class="nav-link text-light" asp-controller="Home" asp-action="Index">Home</a>
+</li>
+<li class="nav-item">
+<a class="nav-link text-light" asp-controller="Lanche" asp-action="List">Cardápio</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+</header>
+<div class="container">
+<main role="main" class="pb-3">
+@RenderBody()
+</main>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2025 - LanchoneteMVC
+    </div>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
+**Arquivo: `Views/Shared/Error.cshtml`**
+
+```html
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Erro";
+}
+
+<h1 class="text-danger">Erro.</h1>
+<h2 class="text-danger">Ocorreu um erro ao processar sua requisição.</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+Arquivo: Views/Home/Index.cshtml
+
+HTML
+
+@{
+    ViewData["Title"] = "Página Inicial";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bem-vindo à nossa Lanchonete!</h1>
+    <p class="lead">O melhor sabor da cidade, agora online.</p>
+    <hr />
+    <img src="https://placehold.co/800x400/EFEFEF/AAAAAA?text=O+Melhor+Lanche+da+Cidade" alt="Lanche de boas-vindas" class="img-fluid rounded shadow" />
+    <div class="mt-4">
+        <a class="btn btn-primary btn-lg" asp-controller="Lanche" asp-action="List">Ver Cardápio</a>
+    </div>
+</div>
+Arquivo: Views/Lanche/List.cshtml
+
+HTML
+
+@model LancheListViewModel
+@{
+    ViewData["Title"] = "Cardápio";
+}
+<div class="container">
+    <div class="text-center">
+        <h2>@Model.CategoriaAtual</h2>
+    </div>
+    <hr />
+    <div class="row">
+        @if (!Model.Lanches.Any())
+        {
+            <div class="col-12">
+                <p class="text-center">Desculpe, não há lanches disponíveis no momento. Volte mais tarde!</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var lanche in Model.Lanches)
+            {
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="@(string.IsNullOrEmpty(lanche.ImagemUrl) ? "https://placehold.co/300x200/EFEFEF/AAAAAA?text=Sem+Imagem" : lanche.ImagemUrl)" 
+                             class="card-img-top" alt="@lanche.Nome" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@lanche.Nome</h5>
+                            <p class="card-text flex-grow-1">@lanche.DescricaoCurta</p>
+                            <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                                <h4 class="text-danger mb-0">@lanche.Preco.ToString("c")</h4>
+                                <a href="#" class="btn btn-primary btn-sm">Adicionar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+Arquivo: wwwroot/css/site.css
+
+CSS
+
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 60px;
+  background-color: #f8f9fa;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+.card {
+  transition: transform .2s ease-in-out, box-shadow .2s ease-in-out;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,.15) !important;
+}
+Arquivo: Program.cs
+Finalmente, modifique o arquivo Program.cs principal para registrar todos os serviços e configurar a aplicação.
+
+C#
+
+using LanchoneteMVC.Data;
+using LanchoneteMVC.Models;
+using LanchoneteMVC.Repositories;
+using LanchoneteMVC.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Configurar DbContext com SQLite
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(connectionString));
+
+// Registrar Repositórios
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<ILancheRepository, LancheRepository>();
+
+// Adicionar serviço de Controllers com Views
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+Instrução Final:
+Quando você terminar de criar absolutamente todos os arquivos, apenas me diga: "Projeto construído com sucesso."

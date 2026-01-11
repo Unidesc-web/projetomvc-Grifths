@@ -1,0 +1,125 @@
+{
+  "Version": 1,
+  "Hash": "Iv9/tzm1a53LSU6PqFB6W5MTBIta2gTUbxdxxcinEXk=",
+  "Source": "Main",
+  "BasePath": "_content/Main",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Main\\wwwroot",
+      "Source": "Main",
+      "ContentRoot": "C:\\Users\\Diogo\\Desktop\\Lucas projeto\\LanchoneteMVC\\wwwroot\\",
+      "BasePath": "_content/Main",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Diogo\\Desktop\\Lucas projeto\\LanchoneteMVC\\wwwroot\\css\\site.css",
+      "SourceId": "Main",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Diogo\\Desktop\\Lucas projeto\\LanchoneteMVC\\wwwroot\\",
+      "BasePath": "_content/Main",
+      "RelativePath": "css/site#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "npudzafmt2",
+      "Integrity": "u7clvrOz335jORQbH+KJTIffXTDM6XVpNuG6zdHUeoA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\site.css"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "css/site.css",
+      "AssetFile": "C:\\Users\\Diogo\\Desktop\\Lucas projeto\\LanchoneteMVC\\wwwroot\\css\\site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "490"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"u7clvrOz335jORQbH+KJTIffXTDM6XVpNuG6zdHUeoA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 24 Jun 2025 18:22:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-u7clvrOz335jORQbH+KJTIffXTDM6XVpNuG6zdHUeoA="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.npudzafmt2.css",
+      "AssetFile": "C:\\Users\\Diogo\\Desktop\\Lucas projeto\\LanchoneteMVC\\wwwroot\\css\\site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "490"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"u7clvrOz335jORQbH+KJTIffXTDM6XVpNuG6zdHUeoA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 24 Jun 2025 18:22:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "npudzafmt2"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-u7clvrOz335jORQbH+KJTIffXTDM6XVpNuG6zdHUeoA="
+        }
+      ]
+    }
+  ]
+}
